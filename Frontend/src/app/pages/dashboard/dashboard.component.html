@@ -1,22 +1,127 @@
+<div class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Overview of your invoicing activity and revenue.</p>
+    </div>
+    <div class="header-actions">
+      <a nz-button nzType="primary" routerLink="/invoices/add">
+        <span nz-icon nzType="plus"></span>
+        New Invoice
+      </a>
+    </div>
+  </div>
 
-<div nz-row [nzGutter]="16">
-  <div nz-col [nzSpan]="8">
-    <nz-card nzTitle="Monthly Income" style="text-align:center;">
-      <nz-statistic [nzValue]="sales" [nzPrefix]="prefixTpl" [nzSuffix]="'$'" [nzValueStyle]="{ color: '#0099ff' }"></nz-statistic>
-      <ng-template #prefixTpl><span nz-icon nzType="dollar-circle"></span></ng-template>
-    </nz-card>
+  <nz-alert
+    *ngIf="error"
+    nzType="error"
+    nzMessage="Unable to load dashboard data."
+    nzShowIcon>
+  </nz-alert>
+
+  <div *ngIf="loading" class="loading-state">
+    <nz-spin nzSimple></nz-spin>
+    <span>Loading dashboard...</span>
   </div>
-  <div nz-col [nzSpan]="8">
-    <nz-card nzTitle="Monthly Invoices" style="text-align:center;">
-      <nz-statistic [nzValue]="newOrders" [nzPrefix]="prefixTp2" [nzValueStyle]="{ color: '#ee6633' }"></nz-statistic>
-      <ng-template #prefixTp2><span nz-icon nzType="send"></span></ng-template>
+
+  <ng-container *ngIf="!loading">
+    <div class="stats-grid">
+      <nz-card class="stat-card">
+        <div class="stat-label">Total Revenue</div>
+        <div class="stat-value">{{ data.totalRevenue | currency }}</div>
+        <div class="stat-meta">Paid invoices</div>
+      </nz-card>
+
+      <nz-card class="stat-card">
+        <div class="stat-label">This Month</div>
+        <div class="stat-value">{{ data.monthlyRevenue | currency }}</div>
+        <div class="stat-meta">{{ data.monthlyInvoices }} invoices this month</div>
+      </nz-card>
+
+      <nz-card class="stat-card">
+        <div class="stat-label">Paid Invoices</div>
+        <div class="stat-value">{{ data.paidInvoices }}</div>
+        <div class="stat-meta">Completed invoices</div>
+      </nz-card>
+
+      <nz-card class="stat-card">
+        <div class="stat-label">Customers</div>
+        <div class="stat-value">{{ data.totalCustomers }}</div>
+        <div class="stat-meta">{{ data.totalInvoices }} total invoices</div>
+      </nz-card>
+    </div>
+
+    <div class="content-grid">
+      <nz-card nzTitle="Revenue Overview" class="panel revenue-panel">
+        <div class="chart" *ngIf="data.trend.length">
+          <div class="chart-bars">
+            <div class="bar-column" *ngFor="let item of data.trend">
+              <div class="bar-value">{{ item.revenue | currency:'USD':'symbol':'1.0-0' }}</div>
+              <div class="bar-track">
+                <div class="bar" [style.height.%]="getRevenueBar(item.revenue)"></div>
+              </div>
+              <div class="bar-label">{{ item.month }}</div>
+            </div>
+          </div>
+        </div>
+      </nz-card>
+
+      <nz-card nzTitle="Invoice Status" class="panel status-panel">
+        <div class="status-row">
+          <div><span class="status-dot paid"></span>Paid</div>
+          <strong>{{ data.paidInvoices }}</strong>
+          <span>{{ getStatusPercent(data.paidInvoices) }}%</span>
+        </div>
+        <nz-progress [nzPercent]="getStatusPercent(data.paidInvoices)" [nzShowInfo]="false"></nz-progress>
+
+        <div class="status-row">
+          <div><span class="status-dot pending"></span>Pending</div>
+          <strong>{{ data.pendingInvoices }}</strong>
+          <span>{{ getStatusPercent(data.pendingInvoices) }}%</span>
+        </div>
+        <nz-progress [nzPercent]="getStatusPercent(data.pendingInvoices)" [nzShowInfo]="false"></nz-progress>
+
+        <div class="status-row">
+          <div><span class="status-dot draft"></span>Draft</div>
+          <strong>{{ data.draftInvoices }}</strong>
+          <span>{{ getStatusPercent(data.draftInvoices) }}%</span>
+        </div>
+        <nz-progress [nzPercent]="getStatusPercent(data.draftInvoices)" [nzShowInfo]="false"></nz-progress>
+      </nz-card>
+    </div>
+
+    <nz-card nzTitle="Recent Invoices" class="panel recent-panel">
+      <nz-table #recentTable [nzData]="data.recentInvoices" [nzFrontPagination]="false" nzSize="middle">
+        <thead>
+          <tr>
+            <th>Invoice</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let invoice of data.recentInvoices; trackBy: trackByInvoiceId">
+            <td>
+              <a [routerLink]="['/invoices/show', invoice.id]">
+                #{{ invoice.id | slice:0:8 }}
+              </a>
+            </td>
+            <td>{{ invoice.customerName }}</td>
+            <td>{{ invoice.invoiceDate | date }}</td>
+            <td>{{ invoice.totalAmount | currency }}</td>
+            <td>
+              <span class="status-badge"
+                    [class.paid]="invoice.status === 2"
+                    [class.pending]="invoice.status === 1"
+                    [class.draft]="invoice.status === 0">
+                {{ invoice.status === 2 ? 'Paid' : invoice.status === 1 ? 'Pending' : 'Draft' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
     </nz-card>
-  </div>
-  <div nz-col [nzSpan]="8">
-    <nz-card nzTitle="Monthly Customers" style="text-align:center;">
-      <nz-statistic [nzValue]="activeUsers" [nzPrefix]="prefixTp3" [nzValueStyle]="{ color: '#e19615' }"></nz-statistic>
-      <ng-template #prefixTp3><span nz-icon nzType="team"></span></ng-template>
-    </nz-card>
-  </div>
+  </ng-container>
 </div>
-
