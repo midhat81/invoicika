@@ -1,0 +1,98 @@
+<nz-layout *ngIf="authService.isAuthenticated()" class="app-layout">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
+    <div class="sidebar-logo">
+      <a href="https://codebangla.com" target="_blank">
+        <img src="assets/invoicika.svg" alt="logo" />
+        <h1>Invoicika</h1>
+      </a>
+    </div>
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+    >
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/dashboard"
+          ><i nz-icon nzType="dashboard"></i><span>Dashboard</span></a
+        >
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/invoices/all"
+          ><i nz-icon nzType="send"></i><span>Invoices</span></a
+        >
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/customers/all"
+          ><i nz-icon nzType="team"></i><span>Customers</span></a
+        >
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/items/all"
+          ><i nz-icon nzType="folder-open"></i><span>Items</span></a
+        >
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/groups/all"
+          ><i nz-icon nzType="group"></i><span>Groups</span></a
+        >
+      </li>
+      <li nz-submenu nzOpen nzTitle="Settings" nzIcon="setting">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/vat/all">VAT</a>
+          </li>
+          <li *ngIf="role === 'Admin'" nz-menu-item nzMatchRouter>
+            <a routerLink="/users/all">Users</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/roles/all">Roles</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <span
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></span>
+        </span>
+        <div class="user">
+          <!-- Dropdown Menu for User Actions -->
+          <a nz-dropdown [nzDropdownMenu]="menu" class="ant-dropdown-link">
+            {{ username }}
+            <span nz-icon nzType="down"></span>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+              <li nz-menu-item *ngIf="userId" [routerLink]="['/users/edit', userId]">Profile</li>
+              <li nz-menu-item (click)="authService.logout()">Logout</li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <nz-footer
+      >Invoicika ©2024 Developed By
+      <a href="https://codebangla.com" target="_blank">CodeBANGLA</a></nz-footer
+    >
+  </nz-layout>
+</nz-layout>
+<router-outlet *ngIf="!authService.isAuthenticated()"></router-outlet>

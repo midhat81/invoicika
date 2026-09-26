@@ -1,0 +1,24 @@
+<div *ngIf="loading" class="spinner-container">
+  <nz-spin nzSimple></nz-spin>
+</div>
+<div *ngIf="!loading">
+  <nz-page-header
+    class="site-page-header"
+    (nzBack)="onBack()"
+    nzBackIcon
+    nzTitle="Roles List"
+  ></nz-page-header>
+
+  <nz-table #roleTable [nzData]="roles" [nzBordered]="true" [nzFrontPagination]="false">
+    <thead>
+      <tr>
+        <th>Role Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let role of roles">
+        <td>{{ role.roleName }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

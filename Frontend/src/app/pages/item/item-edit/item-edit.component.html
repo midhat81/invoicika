@@ -1,0 +1,76 @@
+<div *ngIf="loading" class="spinner-container">
+  <nz-spin nzSimple></nz-spin>
+</div>
+<div *ngIf="!loading">
+  <nz-page-header
+    class="site-page-header"
+    (nzBack)="onBack()"
+    nzBackIcon
+    nzTitle="Edit Item"
+  >
+  </nz-page-header>
+
+  <form nz-form [formGroup]="editItemForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Item Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="nameErrorTpl">
+        <input nz-input formControlName="name" placeholder="Enter item name" />
+        <ng-template #nameErrorTpl let-control>
+          <ng-container *ngIf="control.errors?.['required']">
+            Please input the item name!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Description</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <textarea nz-input formControlName="description" rows="3" placeholder="Enter item description"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Purchase Price</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="priceErrorTpl">
+        <input nz-input type="number" formControlName="purchasePrice" placeholder="Enter purchase price" />
+        <ng-template #priceErrorTpl let-control>
+          <ng-container *ngIf="control.errors?.['required']">
+            Please input the purchase price!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Sale Price</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="priceErrorTpl">
+        <input nz-input type="number" formControlName="salePrice" placeholder="Enter sale price" />
+        <ng-template #priceErrorTpl let-control>
+          <ng-container *ngIf="control.errors?.['required']">
+            Please input the sale price!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Quantity</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="quantityErrorTpl">
+        <input nz-input type="number" formControlName="quantity" placeholder="Enter quantity" />
+        <ng-template #quantityErrorTpl let-control>
+          <ng-container *ngIf="control.errors?.['required']">
+            Please input the quantity!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!editItemForm.valid"><span nz-icon nzType="edit"></span>Edit</button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

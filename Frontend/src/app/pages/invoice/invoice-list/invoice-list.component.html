@@ -1,0 +1,104 @@
+<nz-page-header
+  class="site-page-header"
+  (nzBack)="onBack()"
+  nzBackIcon
+  nzTitle="Invoice List"
+>
+  <nz-page-header-extra>
+    <nz-space>
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+        <input type="text" nz-input placeholder="Search"/>
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzSearch>
+          <span nz-icon nzType="search"></span>
+        </button>
+      </ng-template>
+      <nz-divider nzType="vertical"></nz-divider>
+      <button
+        nz-button
+        nzType="dashed"
+        (click)="loadDataFromServer(pageIndex, pageSize, null, null, [])"
+      >
+        <span nz-icon nzType="redo"></span>
+        Refresh
+      </button>
+      <nz-divider nzType="vertical"></nz-divider>
+      <button
+        *nzSpaceItem
+        nz-button
+        nzType="primary"
+        [routerLink]="['/invoices/add']"
+      >
+        <span nz-icon nzType="plus"></span>
+        Add Invoice
+      </button>
+    </nz-space>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<nz-table
+  #basicTable
+  [nzData]="listOfInvoices"
+  [nzFrontPagination]="false"
+  [nzLoading]="loading"
+  [nzTotal]="total"
+  [nzPageSize]="pageSize"
+  [nzPageIndex]="pageIndex"
+  (nzQueryParams)="onQueryParamsChange($event)"
+  nzBordered
+>
+  <thead>
+  <tr>
+    <th nzColumnKey="customerInvoiceId" nzShowSort>Invoice ID</th>
+    <th nzColumnKey="customer_id" nzShowSort>Customer Name</th>
+    <th nzColumnKey="invoiceDate" nzShowSort>Invoice Date</th>
+    <th nzColumnKey="totalAmount" nzShowSort>Total Amount</th>
+    <th nzColumnKey="totalAmount" nzShowSort>By</th>
+    <th nzColumnKey="status">
+      Status
+    </th>
+    <th nzColumnKey="actions">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let invoice of listOfInvoices">
+    <td>{{ invoice.customerInvoiceId }}</td>
+    <td>{{ getCustomerName(invoice.customer_id) }}</td>
+    <td>{{ invoice.invoiceDate | date }}</td>
+    <td>{{ invoice.totalAmount | currency }}</td>
+    <td>{{ getUserName(invoice.user_id) }}</td>
+    <td>
+      <invoice-status [status]="invoice.status"></invoice-status>
+    </td>
+    <td>
+      <a [routerLink]="['/invoices/show', invoice.customerInvoiceId]">
+          <span
+            nz-icon
+            nzType="eye"
+            nzTheme="outline"
+            style="color: grey"
+          ></span>
+      </a>
+      <nz-divider nzType="vertical"></nz-divider>
+      <a [routerLink]="['/invoices/edit', invoice.customerInvoiceId]">
+          <span
+            nz-icon
+            nzType="edit"
+            nzTheme="outline"
+            style="color: orange"
+          ></span>
+      </a>
+      <nz-divider nzType="vertical"></nz-divider>
+      <a (click)="showDeleteConfirm(invoice)">
+          <span
+            nz-icon
+            nzType="delete"
+            nzTheme="outline"
+            style="color: red"
+          ></span>
+      </a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

@@ -1,0 +1,33 @@
+<nz-page-header
+  class="site-page-header"
+  (nzBack)="onBack()"
+  nzBackIcon
+  nzTitle="Edit VAT">
+</nz-page-header>
+
+<form nz-form [formGroup]="editVatForm" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>VAT Percentage</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="percentageErrorTpl">
+      <input nz-input type="number" formControlName="percentage" placeholder="Enter VAT percentage" />
+      <ng-template #percentageErrorTpl let-control>
+        <ng-container *ngIf="control.errors?.['required']">
+          Please input the VAT percentage!
+        </ng-container>
+        <ng-container *ngIf="control.errors?.['min']">
+          VAT percentage cannot be less than 0!
+        </ng-container>
+        <ng-container *ngIf="control.errors?.['max']">
+          VAT percentage cannot be more than 100!
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="!editVatForm.valid"><span nz-icon nzType="edit"></span>Edit</button>
+      <button nz-button (click)="resetForm($event)">Reset</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

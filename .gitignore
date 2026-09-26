@@ -1,0 +1,60 @@
+# Ignore Node.js and Angular specific files (for Invoicika folder)
+Invoicika/node_modules/
+Invoicika/dist/
+Invoicika/.angular/cache/
+Invoicika/.angular/**
+Invoicika/npm-debug.log*
+Invoicika/yarn-error.log
+Invoicika/package-lock.json
+Invoicika/.idea/
+Invoicika/.env
+Invoicika/.vscode/
+Invoicika/src/environments/environment*.ts
+
+# Ignore Visual Studio temporary files, build results, and files for Web API (WebAPI folder)
+WebAPI/.vscode/
+WebAPI/*.rsuser
+WebAPI/*.suo
+WebAPI/*.user
+WebAPI/*.userosscache
+WebAPI/*.sln.docstates
+
+# Build results
+WebAPI/[Dd]ebug/
+WebAPI/[Dd]ebugPublic/
+WebAPI/[Rr]elease/
+WebAPI/[Rr]eleases/
+WebAPI/x64/
+WebAPI/x86/
+WebAPI/[Aa][Rr][Mm]/
+WebAPI/[Aa][Rr][Mm]64/
+WebAPI/bld/
+WebAPI/[Bb]in/
+WebAPI/[Oo]bj/
+
+# .NET Core
+WebAPI/project.lock.json
+WebAPI/project.fragment.lock.json
+WebAPI/artifacts/
+
+# ASP.NET Scaffolding
+WebAPI/ScaffoldingReadMe.txt
+
+# Mono auto generated files
+WebAPI/mono_crash.*
+
+# StyleCop
+WebAPI/StyleCopReport.xml
+
+# Files built by Visual Studio
+WebAPI/*.cache
+WebAPI/*.docstates
+
+# Exclude .vs directory
+WebAPI/.vs/
+
+# Ignore publish and publish profile files and directories
+WebAPI/publish/
+WebAPI/*.pubxml
+WebAPI/*.pubxml.user
+.idea

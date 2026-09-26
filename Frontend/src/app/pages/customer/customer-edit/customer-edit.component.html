@@ -1,0 +1,58 @@
+<div *ngIf="loading" class="spinner-container">
+  <nz-spin nzSimple></nz-spin>
+</div>
+<div *ngIf="!loading">
+  <nz-page-header
+    class="site-page-header"
+    (nzBack)="onBack()"
+    nzBackIcon
+    nzTitle="Edit Customer">
+  </nz-page-header>
+
+  <form nz-form [formGroup]="editCustomerForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Customer Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="nameErrorTpl">
+        <input nz-input formControlName="name" placeholder="Enter customer name" />
+        <ng-template #nameErrorTpl let-control>
+          <ng-container *ngIf="control.errors?.['required']">
+            Please input the customer name!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Address</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <textarea nz-input formControlName="address" rows="3" placeholder="Enter address"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Phone Number</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <input nz-input formControlName="phoneNumber" placeholder="Enter phone number" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Email</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+        <input nz-input formControlName="email" placeholder="Enter email" />
+        <ng-template #emailErrorTpl let-control>
+          <ng-container *ngIf="control.errors?.['email']">
+            Please input a valid email address!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!editCustomerForm.valid"><span nz-icon nzType="edit"></span>Edit</button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

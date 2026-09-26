@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\(F) Work\Interview\_sep\invoicika\WebAPI\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2024-09-07T18:17:10.7501906Z||;True|2024-09-07T16:52:00.5219182+02:00||;True|2024-09-07T16:16:00.6451403+02:00||;True|2024-09-07T04:09:28.9941171+02:00||;True|2024-09-07T04:08:16.1609442+02:00||;True|2024-09-07T04:08:04.5931663+02:00||;True|2024-09-07T04:06:20.1850121+02:00||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

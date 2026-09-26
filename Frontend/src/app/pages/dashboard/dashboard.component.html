@@ -1,0 +1,22 @@
+
+<div nz-row [nzGutter]="16">
+  <div nz-col [nzSpan]="8">
+    <nz-card nzTitle="Monthly Income" style="text-align:center;">
+      <nz-statistic [nzValue]="sales" [nzPrefix]="prefixTpl" [nzSuffix]="'$'" [nzValueStyle]="{ color: '#0099ff' }"></nz-statistic>
+      <ng-template #prefixTpl><span nz-icon nzType="dollar-circle"></span></ng-template>
+    </nz-card>
+  </div>
+  <div nz-col [nzSpan]="8">
+    <nz-card nzTitle="Monthly Invoices" style="text-align:center;">
+      <nz-statistic [nzValue]="newOrders" [nzPrefix]="prefixTp2" [nzValueStyle]="{ color: '#ee6633' }"></nz-statistic>
+      <ng-template #prefixTp2><span nz-icon nzType="send"></span></ng-template>
+    </nz-card>
+  </div>
+  <div nz-col [nzSpan]="8">
+    <nz-card nzTitle="Monthly Customers" style="text-align:center;">
+      <nz-statistic [nzValue]="activeUsers" [nzPrefix]="prefixTp3" [nzValueStyle]="{ color: '#e19615' }"></nz-statistic>
+      <ng-template #prefixTp3><span nz-icon nzType="team"></span></ng-template>
+    </nz-card>
+  </div>
+</div>
+

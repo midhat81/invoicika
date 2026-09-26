@@ -1,0 +1,37 @@
+   .parent-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: lightblue;
+    text-align: center;
+    }
+    .container {
+      padding: 20px;
+      background-color: lightcoral;
+      text-align: center;
+    }
+      [nz-form] {
+        max-width: 600px;
+      }
+
+      .phone-select {
+        width: 70px;
+      }
+
+      .register-are {
+        margin-bottom: 8px;
+      }
+
+
+
+      @media (max-width: 480px) {
+        .parent-container {
+          padding: 0;
+        }
+        [nz-card] {
+          width: 320px;
+          background-color: blueviolet;
+        }
+      }

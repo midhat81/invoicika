@@ -1,0 +1,110 @@
+<nz-page-header
+  class="site-page-header"
+  (nzBack)="onBack()"
+  nzBackIcon
+  nzTitle="Edit User"
+>
+</nz-page-header>
+
+<div *ngIf="loading" class="spinner-container">
+  <nz-spin nzSimple></nz-spin>
+</div>
+
+<div *ngIf="!loading">
+  <form nz-form [formGroup]="editUserForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
+      <nz-form-control
+        [nzSpan]="12"
+        nzHasFeedback
+        [nzErrorTip]="usernameErrorTpl"
+      >
+        <input
+          nz-input
+          formControlName="username"
+          placeholder="Enter username"
+        />
+        <ng-template #usernameErrorTpl let-control>
+          <ng-container *ngIf="control.errors?.['required']">
+            Please input the username!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Email</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+        <input
+          nz-input
+          formControlName="emailAddress"
+          placeholder="Enter email"
+        />
+        <ng-template #emailErrorTpl let-control>
+          <ng-container *ngIf="control.errors?.['email']">
+            Please input a valid email address!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Role</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="roleErrorTpl">
+        <nz-select formControlName="role_id" nzPlaceHolder="Select role">
+          <nz-option
+            *ngFor="let role of roles"
+            [nzValue]="role.roleId"
+            [nzLabel]="role.roleName"
+          ></nz-option>
+        </nz-select>
+        <ng-template #roleErrorTpl let-control>
+          <ng-container *ngIf="control.errors?.['required']">
+            Please select a role!
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Profile Photo</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input type="file" (change)="onFileChange($event)" accept="image/*" />
+
+        <!-- Show new uploaded image if available -->
+        <ng-container *ngIf="selectedFilePreview; else existingPhoto">
+          <img
+            [src]="selectedFilePreview"
+            alt="Profile Photo"
+            style="max-width: 200px; margin-top: 10px"
+          />
+        </ng-container>
+
+        <!-- Show existing profile photo if no new file is selected -->
+        <ng-template #existingPhoto>
+          <ng-container *ngIf="photoUrl">
+            <img
+              [src]="basePath + photoUrl"
+              alt="Profile Photo"
+              style="max-width: 200px; margin-top: 10px"
+            />
+          </ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">Password</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input type="password" formControlName="passwordHash" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="7" [nzSpan]="12">
+        <button nz-button nzType="primary" [disabled]="!editUserForm.valid">
+          <span nz-icon nzType="edit"></span>Edit
+        </button>
+        <button nz-button (click)="resetForm($event)">Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
