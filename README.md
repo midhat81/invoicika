@@ -40,7 +40,7 @@ Invoicika is an advanced invoice management system built with Angular 16, ASP.NE
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/codebangla/invoicika.git
+   git clone https://github.com/midhat81/invoicika.git
    cd invoicika
    ```
 
