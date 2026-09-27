@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -54,6 +55,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 @NgModule({
   exports: [
     NzButtonModule,
+    NzAlertModule,
     NzStatisticModule,
     NzIconModule,
     NzLayoutModule,
