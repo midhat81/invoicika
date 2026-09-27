@@ -20,7 +20,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=invoicikaDb;Username=postgres;Password=invoicika!123;SSL Mode=Disable
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - ./WebAPI:/app/webapi
     networks:
